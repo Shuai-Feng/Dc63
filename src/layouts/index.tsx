@@ -24,7 +24,7 @@ const _layout: React.FunctionComponent<I_layoutProps> = (props) => {
       {/* 根据路由加载的页面 /home /ui */}
     <Content>
         <NavHeader/>
-        <Content style={{minHeight:"60vh",border:"1px solid #000",margin:'12px'}} >
+        <Content style={{minHeight:"60vh",margin:'12px'}} >
           {props.children}
         </Content>
         <Footer style={{textAlign:"center",color:"#ccc"}} >
