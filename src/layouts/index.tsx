@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Layout } from 'antd';
 
+import NavLeft from '@/component/NavLeft';
+import NavHeader from '@/component/NavHeader';
+// @ ./src
+
 const { Sider,Header,Content,Footer } = Layout;
 // const Sider= Layout.Slider
 
@@ -15,10 +19,11 @@ const _layout: React.FunctionComponent<I_layoutProps> = (props) => {
         collapsedWidth={0}
         breakpoint={"lg"}
     >
+      <NavLeft/>
     </Sider>
       {/* 根据路由加载的页面 /home /ui */}
     <Content>
-        <Header style={{background:"#fff",textAlign:"right"}} >标题栏</Header>
+        <NavHeader/>
         <Content style={{minHeight:"60vh",border:"1px solid #000",margin:'12px'}} >
           {props.children}
         </Content>
