@@ -3,9 +3,10 @@ import { Layout } from 'antd';
 
 import NavLeft from '@/component/NavLeft';
 import NavHeader from '@/component/NavHeader';
-// @ ./src
+import './loading.less';
 
-const { Sider,Header,Content,Footer } = Layout;
+
+const { Sider,Content,Footer } = Layout;
 // const Sider= Layout.Slider
 
 interface I_layoutProps {
