@@ -23,7 +23,7 @@ const _layout: React.FunctionComponent<I_layoutProps> = (props) => {
       <NavLeft/>
     </Sider>
       {/* 根据路由加载的页面 /home /ui */}
-    <Content style={{maxHeight:'100vh',overflow:'scroll'}}>
+    <Content style={{maxHeight:'100vh',overflowY:'auto'}}>
         <NavHeader/>
         <Content style={{minHeight:"60vh",margin:'12px'}} >
           {props.children}
