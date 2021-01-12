@@ -1,17 +1,22 @@
 import * as React from 'react';
-import { Card, Button, Table, message } from 'antd';
+import { Card, Button, Table, message, Modal } from 'antd';
 //antd/es/组件名
 import { ColumnProps } from 'antd/es/table';
 import SFaxios from '@/utils/SFaxios';
 import SFevent from '@/utils/SFevent';
 //引入FilterForm
 import FilterForm from './components/FilterForm';
+import OpenCityForm from './components/OpenCityForm';
 
 interface ICityPageProps {}
 
 const CityPage: React.FunctionComponent<ICityPageProps> = props => {
   //存放数据的state
   const [tableData, setTable] = React.useState<Array<any>>([]);
+  //控制模态框的显示
+  const [modalVisibel, setVisibel] = React.useState<boolean>(false);
+
+  const [openForm, setOpenForm] = React.useState<any>();
 
   React.useEffect(() => {
     requestList();
@@ -20,6 +25,11 @@ const CityPage: React.FunctionComponent<ICityPageProps> = props => {
     SFevent.ee_on('filterRequest', (arg: any) => {
       requestList(arg);
       message.info('数据已筛选');
+    });
+    SFevent.ee_on('get_openForm', (inst: any) => {
+      //获取我们自组建的实例
+      console.log(inst);
+      setOpenForm(inst);
     });
   }, []);
 
@@ -91,17 +101,60 @@ const CityPage: React.FunctionComponent<ICityPageProps> = props => {
     },
   ];
 
+  //开通城市提交 handleOpenSubmit   验证表单   发送请求
+  const handleOpenSubmit = async () => {
+    let { getFieldsValue, validateFields, resetFields } = openForm;
+    try {
+      await validateFields();
+      SFaxios.ajax({
+        url: '/open/city',
+        data: {
+          params: getFieldsValue(),
+        },
+      }).then(res => {
+        message.success('城市开通成功');
+        //关闭模态框
+        setVisibel(false);
+        //刷新数据
+        requestList();
+        //重置表单
+        resetFields();
+      });
+    } catch (e) {
+      message.info('表单有问题，请重试');
+    }
+  };
+
   return (
     <div className="CityPage">
       <Card style={{ marginBottom: 10 }}>
         <FilterForm />
       </Card>
       <Card>
-        <Button type="primary">开通城市</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            setVisibel(true);
+          }}
+        >
+          开通城市
+        </Button>
       </Card>
       <Card>
         <Table columns={columns} dataSource={tableData} />
       </Card>
+      <Modal
+        title="开通城市"
+        visible={modalVisibel}
+        okText={'确定'}
+        cancelText={'取消'}
+        onCancel={() => {
+          setVisibel(false);
+        }}
+        onOk={handleOpenSubmit}
+      >
+        <OpenCityForm />
+      </Modal>
     </div>
   );
 };
