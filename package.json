@@ -36,6 +36,8 @@
     "lint-staged": "^10.0.7",
     "moment": "^2.29.1",
     "prettier": "^1.19.1",
+    "rc-queue-anim": "^1.8.5",
+    "rc-tween-one": "^2.7.3",
     "react": "^16.12.0",
     "react-dom": "^16.14.0",
     "react-draft-wysiwyg": "^1.14.5",
