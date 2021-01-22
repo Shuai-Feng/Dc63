@@ -1,0 +1,29 @@
+.carousel {
+  width: 400px;
+  height: 250px;
+  overflow: hidden;
+  .wrapper {
+    width: 300%;
+    overflow: scroll;
+    transition: transform 0.4s ease;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    transform: translateX(-66.66%);
+    img {
+      width: 33.33%;
+      display: block;
+      height: 250px;
+      float: left;
+    }
+    .dot {
+      position: aboslute;
+      z-index: 999;
+      width: 10px;
+      height: 10px;
+      border-radius: 100%;
+      background: #fff;
+    }
+  }
+}
