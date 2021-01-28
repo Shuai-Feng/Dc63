@@ -108,7 +108,7 @@ const OrderPage: React.FunctionComponent<IOrderPageProps> = props => {
     }
     //打开弹出新窗口
     window.open(
-      window.location.origin + '/#/detail/' + tableRecord[0].order_sn,
+      window.location.origin + '/#/detail/order/' + tableRecord[0].order_sn,
       '_blank',
     );
   };

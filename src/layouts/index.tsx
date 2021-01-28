@@ -12,6 +12,19 @@ const { Sider, Content, Footer } = Layout;
 interface I_layoutProps {}
 
 const _layout: React.FunctionComponent<I_layoutProps> = props => {
+  //@ts-ignore
+  if (props.location.pathname.includes('/detail')) {
+    return (
+      <div>
+        <NavHeader menuType="second" />
+        {props.children}
+      </div>
+    );
+  }
+  //@ts-ignore
+  if (props.location.pathname.includes('/todo')) {
+    return <div>{props.children}</div>;
+  }
   return (
     <Layout className="_layout">
       <Sider
