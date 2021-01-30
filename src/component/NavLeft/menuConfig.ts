@@ -118,10 +118,6 @@ const menuList: Array<menuItem> = [
     title: '权限设置',
     key: '/permission',
   },
-  {
-    title: '轮播图',
-    key: '/demo',
-  },
 ];
 
 export default menuList;
