@@ -98,7 +98,7 @@ const OrderDetail: React.FunctionComponent<IOrderDetailProps> = (props) => {
       trackPoint.push(new BMap.Point(point.lon,point.lat))
     })
     let polygon = new BMap.Polygon(trackPoint,{
-      strokeColor:'#09f',
+      strokeColcor:'#09f',
       strokeWeight:3,
       strokeOpacity:1,
       fillColor:'#ff8605',
