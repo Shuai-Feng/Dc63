@@ -36,7 +36,7 @@ export default {
         // /userAdd  /userDelete
         url: option.url,
         baseURL: baseUrl,
-        timeout: 5000,
+        timeout: 10000,
         //www.link32.com/api
         method: 'GET',
         params: (option.data && option.data.params) || '',
