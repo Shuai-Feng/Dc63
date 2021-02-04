@@ -21,12 +21,11 @@ const UserPage: React.FunctionComponent<IUserPageProps> = props => {
   const [tableKey, setKey] = React.useState<string[] | number[]>([]);
   const [tabelRow, setRow] = React.useState<any[]>([]);
   const [visible, setModal] = React.useState<boolean>(false);
+  const [op_form, setForm] = React.useState<any>();
 
   const [type, setType] = React.useState<'detail' | 'edit' | 'create'>(
     'detail',
   );
-
-  const [op_form, setForm] = React.useState<any>();
 
   const columns: ColumnProps<{}>[] = [
     {
@@ -83,6 +82,7 @@ const UserPage: React.FunctionComponent<IUserPageProps> = props => {
       dataIndex: 'time',
     },
   ];
+
   const rowSelectTion: TableRowSelection<{}> = {
     type: 'radio',
     onChange: (selectKey, selectRow) => {
@@ -100,7 +100,7 @@ const UserPage: React.FunctionComponent<IUserPageProps> = props => {
   }
 
   //请求员工数据
-  const requstList = async (params?: any) => {
+  const requestList = async (params?: any) => {
     try {
       let data: any = await SFaxios.ajax({
         url: '/user/list',
@@ -173,24 +173,38 @@ const UserPage: React.FunctionComponent<IUserPageProps> = props => {
         },
       });
       message.success('员工已删除');
-      requstList();
+      requestList();
+    } catch (e) {
+      message.info(e.message);
+    }
+  };
+
+  //创建和修改员工实行的回调函数
+  const handleSubmit = async () => {
+    try {
+      await SFaxios.ajax({
+        url: type == 'create' ? '/user/add' : '/user/edit',
+        data: {
+          params: op_form.getFieldsValue(),
+        },
+      });
+      message.success('已经完成更改');
+      op_form.resetFields();
+      requestList();
+      setModal(false);
     } catch (e) {
       message.info(e.message);
     }
   };
 
   React.useEffect(() => {
-    requstList();
+    requestList();
     SFevent.ee_on('handleUserFilter', (formData: Object) => {
       //触发handleUserFilter
-      requstList(formData);
+      requestList(formData);
       message.success('查询成功');
     });
   }, []);
-
-  const hanldeUserCreate = () => {
-    console.log(op_form);
-  };
 
   return (
     <div className="UserPage">
@@ -261,6 +275,7 @@ const UserPage: React.FunctionComponent<IUserPageProps> = props => {
           }[type]
         }
         visible={visible}
+        onOk={handleSubmit}
         onCancel={() => {
           setModal(false);
         }}
@@ -268,7 +283,13 @@ const UserPage: React.FunctionComponent<IUserPageProps> = props => {
         okText={'确定'}
         cancelText={'取消'}
       >
-        <OperateForm type={type} rowData={tabelRow[0] || {}} />
+        <OperateForm
+          type={type}
+          rowData={tabelRow[0] || {}}
+          getForm={(inst: any) => {
+            setForm(inst);
+          }}
+        />
       </Modal>
     </div>
   );

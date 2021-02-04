@@ -12,6 +12,7 @@ const TextArea = Input.TextArea;
 interface IOperateFormProps extends FormComponentProps {
   type?: 'detail' | 'edit' | 'create';
   rowData?: any;
+  getForm?: Function;
 }
 
 const OperateForm: React.FunctionComponent<IOperateFormProps> = props => {
@@ -35,6 +36,12 @@ const OperateForm: React.FunctionComponent<IOperateFormProps> = props => {
       md: 18,
     },
   };
+
+  React.useEffect(() => {
+    if (props.getForm) {
+      props.getForm(props.form);
+    }
+  }, []);
 
   return (
     <div className="OperateForm">
