@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "start": "umi dev",
-    "build": "umi build",
+    "analyze start": "cross-env ANALYZE=1 umi dev",
+    "build": "cross-env ANALYZE=1 umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
@@ -32,6 +33,7 @@
     "axios": "^0.21.0",
     "draftjs-to-html": "^0.9.1",
     "echarts": "^5.0.2",
+    "echarts-for-react": "^3.0.0-beta.2",
     "event": "^1.0.0",
     "events": "^3.2.0",
     "lint-staged": "^10.0.7",
@@ -44,5 +46,8 @@
     "react-draft-wysiwyg": "^1.14.5",
     "umi": "^3.2.28",
     "yorkie": "^2.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
