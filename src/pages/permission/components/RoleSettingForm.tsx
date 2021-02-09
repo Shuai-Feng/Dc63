@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Form, Input, Select, Tree } from 'antd';
+import { Form, Input, Select, Tree, Button } from 'antd';
 import { FormComponentProps, FormItemProps } from 'antd/es/form';
+import menuConfig, { menuItem } from '@/component/NavLeft/menuConfig';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+const TreeNode = Tree.TreeNode;
 
 interface IRoleSettingFormProps extends FormComponentProps {
   getForm?: Function;
@@ -11,15 +13,19 @@ interface IRoleSettingFormProps extends FormComponentProps {
 }
 
 const RoleSettingForm: React.FunctionComponent<IRoleSettingFormProps> = props => {
-  let { getFieldDecorator } = props.form;
+  let { getFieldDecorator, setFieldsValue } = props.form;
   let { rowData } = props;
+  const [menus, setMenus] = React.useState<any>([]);
 
   React.useEffect(() => {
     if (props.getForm) {
       props.getForm(props.form);
     }
-    console.log(props.rowData);
   }, []);
+
+  React.useEffect(() => {
+    setMenus(props.rowData.menus);
+  }, [props.rowData]);
 
   //表单项的响应式设置
   const formatItems: FormItemProps = {
@@ -31,6 +37,20 @@ const RoleSettingForm: React.FunctionComponent<IRoleSettingFormProps> = props =>
       sm: 24,
       md: 16,
     },
+  };
+
+  const renderTree = (configData: menuItem[]) => {
+    return configData.map(item => {
+      if (item.children) {
+        return (
+          <TreeNode title={item.title} key={item.key}>
+            {renderTree(item.children)}
+          </TreeNode>
+        );
+      } else {
+        return <TreeNode title={item.title} key={item.key}></TreeNode>;
+      }
+    });
   };
   return (
     <div className="RoleSettingForm">
@@ -50,7 +70,29 @@ const RoleSettingForm: React.FunctionComponent<IRoleSettingFormProps> = props =>
             </Select>,
           )}
         </FormItem>
+        {getFieldDecorator('menus')(
+          <Tree
+            checkable
+            defaultExpandAll
+            checkedKeys={menus}
+            onCheck={checkKey => {
+              setMenus(checkKey);
+              setFieldsValue({ menus: checkKey });
+            }}
+          >
+            <TreeNode title="平台权限" key="platform_all">
+              {renderTree(menuConfig)}
+            </TreeNode>
+          </Tree>,
+        )}
       </Form>
+      <Button
+        onClick={() => {
+          console.log(menus);
+        }}
+      >
+        +
+      </Button>
     </div>
   );
 };

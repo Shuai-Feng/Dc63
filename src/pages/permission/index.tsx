@@ -37,6 +37,8 @@ const PermissionPage: React.FunctionComponent<IPermissionPageProps> = props => {
   //表单逻辑提交
   const handleValidate = async () => {
     // 如果是设置权限和用户权限 必须
+    console.log(myForm.getFieldsValue());
+
     try {
       // console.log(myForm.getFieldsValue())
       await myForm.validateFields();
@@ -122,6 +124,7 @@ const PermissionPage: React.FunctionComponent<IPermissionPageProps> = props => {
     }
     setVisibel(true);
   };
+
   return (
     <div className="PermissionPage">
       <Card style={{ marginBottom: 10 }}>
