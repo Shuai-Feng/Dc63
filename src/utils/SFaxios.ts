@@ -10,6 +10,12 @@ interface ajaxOption {
   };
 }
 
+interface SFresult {
+  code: string | number;
+  result: any;
+  messages: string;
+}
+
 export default {
   ajax(option: ajaxOption) {
     let loading: any = document.getElementById('ajaxLoading');
@@ -31,7 +37,7 @@ export default {
       loading.style.display = 'block';
     }
 
-    return new Promise((resovle, reject) => {
+    return new Promise<SFresult>((resovle, reject) => {
       axios({
         // /userAdd  /userDelete
         url: option.url,
@@ -43,7 +49,7 @@ export default {
       })
         .then(response => {
           //判断一下当前请求状态码
-          let res = response.data;
+          let res: SFresult = response.data;
           if (response.status == 200) {
             if (res.code == 0) {
               resovle(res);
