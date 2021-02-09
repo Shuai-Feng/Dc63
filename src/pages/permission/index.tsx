@@ -5,7 +5,7 @@ import { ColumnProps, TableRowSelection } from 'antd/es/table';
 import SFaxios from '@/utils/SFaxios';
 
 //引入子组件集
-import { RoleCreate, RoleSetting } from './components';
+import { RoleCreate, RoleSetting, RoleEdittingForm } from './components';
 
 interface IPermissionPageProps {}
 
@@ -89,6 +89,9 @@ const PermissionPage: React.FunctionComponent<IPermissionPageProps> = props => {
     {
       dataIndex: 'status',
       title: '当前状态',
+      render: status => {
+        return status == 1 ? '开启' : '关闭';
+      },
     },
     {
       dataIndex: 'authorize_user_name',
@@ -198,6 +201,16 @@ const PermissionPage: React.FunctionComponent<IPermissionPageProps> = props => {
         )}
         {type == 'setting' ? (
           <RoleSetting
+            getForm={(inst: any) => {
+              setForm(inst);
+            }}
+            rowData={tableRow[0]}
+          />
+        ) : (
+          ''
+        )}
+        {type == 'editUser' ? (
+          <RoleEdittingForm
             getForm={(inst: any) => {
               setForm(inst);
             }}
